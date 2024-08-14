@@ -53,6 +53,7 @@ import {
 } from './helper';
 import { ApplicationVersion } from './helpers/application-version';
 import { Locale } from './locale';
+import { LockManager, LockManagerOptions } from './lock-manager';
 import { MainDataSource } from './main-data-source';
 import { parseVariables } from './middlewares';
 import { dataTemplate } from './middlewares/data-template';
@@ -61,7 +62,6 @@ import { Plugin } from './plugin';
 import { InstallOptions, PluginManager } from './plugin-manager';
 import { createPubSubManager, PubSubManager, PubSubManagerOptions } from './pub-sub-manager';
 import { SyncMessageManager } from './sync-message-manager';
-import { LockManager, LockManagerOptions } from './lock-manager';
 
 import packageJson from '../package.json';
 

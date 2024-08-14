@@ -1266,18 +1266,20 @@ export const useAssociationFilterBlockProps = () => {
       },
     },
     {
-      // 由于 选项字段不需要触发当前请求，所以当前请求更改为手动触发
+      // 由于选项字段不需要触发当前请求，所以当前请求更改为手动触发
       manual: true,
       debounceWait: 300,
     },
   ));
 
   useEffect(() => {
-    // 由于 选项字段不需要触发当前请求，所以请求单独在 关系字段的时候触发
+    // 由于选项字段不需要触发当前请求，所以请求单独在关系字段的时候触发
     if (!isOptionalField(collectionField)) {
       run();
     }
-  }, [collectionField, labelKey, run, valueKey]);
+
+    // do not format the dependencies
+  }, [collectionField, labelKey, run, valueKey, field.componentProps?.params, field.componentProps?.params?.sort]);
 
   if (!collectionField) {
     return {};
@@ -1502,6 +1504,7 @@ export const useAssociationNames = (dataSource?: string) => {
     updateAssociationValues = new Set([]);
     appends = new Set([]);
     _getAssociationAppends(fieldSchema, '');
+    appends = fillParentFields(appends);
     return { appends: [...appends], updateAssociationValues: [...updateAssociationValues] };
   };
 
@@ -1736,4 +1739,23 @@ export function navigateWithinSelf(link: string, navigate: NavigateFunction, bas
   } else {
     navigate(completeURL(link, ''));
   }
+}
+
+/**
+ * 为多层级的关系字段补充上父级字段
+ * e.g. ['a', 'b.c'] => ['a', 'b', 'b.c']
+ * @param appends
+ * @returns
+ */
+export function fillParentFields(appends: Set<string>) {
+  const depFields = Array.from(appends).filter((field) => field.includes('.'));
+
+  depFields.forEach((field) => {
+    const fields = field.split('.');
+    fields.pop();
+    const parentField = fields.join('.');
+    appends.add(parentField);
+  });
+
+  return appends;
 }
