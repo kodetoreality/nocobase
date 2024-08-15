@@ -534,6 +534,10 @@ export class Application<StateT = DefaultState, ContextT = DefaultContext> exten
       await this.telemetry.shutdown();
     }
 
+    if (this.lockManager) {
+      await this.lockManager.close();
+    }
+
     this.closeLogger();
 
     const oldDb = this.db;
