@@ -74,7 +74,7 @@ export class PresetNocoBase extends Plugin {
     'workflow-mailer',
     'workflow-notification',
     'field-m2m-array',
-    'notification-mail',
+    'notification-mail-smtp',
   ];
 
   splitNames(name: string) {
