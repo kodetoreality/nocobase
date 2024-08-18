@@ -21,6 +21,73 @@ describe('multi filter target key', () => {
     await db.close();
   });
 
+  it('should use multi filter target key with associations', async () => {
+    const Student = db.collection({
+      name: 'students',
+      autoGenId: false,
+      filterTargetKey: ['name', 'classId'],
+      fields: [
+        {
+          name: 'name',
+          type: 'string',
+          primaryKey: true,
+        },
+        {
+          name: 'classId',
+          type: 'bigInt',
+          primaryKey: true,
+        },
+        {
+          name: 'age',
+          type: 'integer',
+        },
+        {
+          type: 'belongsTo',
+          name: 'school',
+          target: 'schools',
+        },
+      ],
+    });
+
+    const School = db.collection({
+      name: 'schools',
+      fields: [
+        {
+          name: 'name',
+          type: 'string',
+        },
+      ],
+    });
+
+    await db.sync();
+    // create data
+
+    const school = await School.repository.create({
+      values: {
+        name: 'school1',
+      },
+    });
+
+    await Student.repository.create({
+      values: {
+        name: 's1',
+        classId: 1,
+        age: 10,
+        schoolId: school.id,
+      },
+    });
+
+    const s1 = await Student.repository.findOne({
+      filterByTk: {
+        name: 's1',
+        classId: 1,
+      },
+      appends: ['school'],
+    });
+
+    expect(s1.school.name).toBe('school1');
+  });
+
   it('should set multi filter target keys', async () => {
     const Student = db.collection({
       name: 'students',
