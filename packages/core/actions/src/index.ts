@@ -45,7 +45,6 @@ export function registerActions(api: any) {
       'set',
       'toggle',
       'update',
-      'move',
       'firstOrCreate',
       'updateOrCreate',
     ]),

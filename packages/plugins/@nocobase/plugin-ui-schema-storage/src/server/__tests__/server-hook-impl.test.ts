@@ -26,8 +26,8 @@ describe('server hooks', () => {
       registerActions: true,
       plugins: [
         'ui-schema-storage',
-        'data-source-main',
         'field-sort',
+        'data-source-main',
         'error-handler',
         'users',
         'acl',

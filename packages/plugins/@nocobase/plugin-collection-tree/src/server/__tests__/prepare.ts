@@ -16,6 +16,7 @@ export async function prepareApp(): Promise<MockServer> {
     plugins: [
       'acl',
       'error-handler',
+      'field-sort',
       'users',
       'ui-schema-storage',
       'data-source-main',
@@ -33,6 +34,7 @@ export async function createApp(options: any = {}) {
     ...options,
     plugins: [
       'data-source-main',
+      'field-sort',
       'users',
       'collection-tree',
       'error-handler',
@@ -47,7 +49,14 @@ export async function createAppWithNoUsersPlugin(options: any = {}) {
   const app = await createMockServer({
     acl: false,
     ...options,
-    plugins: ['data-source-main', 'collection-tree', 'error-handler', 'data-source-manager', 'ui-schema-storage'],
+    plugins: [
+      'field-sort',
+      'data-source-main',
+      'collection-tree',
+      'error-handler',
+      'data-source-manager',
+      'ui-schema-storage',
+    ],
   });
   return app;
 }

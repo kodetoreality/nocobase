@@ -18,7 +18,7 @@ describe('actions', () => {
 
   beforeAll(async () => {
     app = await createMockServer({
-      plugins: ['acl', 'users', 'data-source-manager'],
+      plugins: ['field-sort', 'acl', 'users', 'data-source-manager'],
     });
     db = app.db;
     repo = db.getRepository('users');

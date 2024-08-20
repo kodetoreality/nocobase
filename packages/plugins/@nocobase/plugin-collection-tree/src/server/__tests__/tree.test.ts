@@ -41,8 +41,8 @@ describe('tree', () => {
       },
     });
 
-    const userPlugin = app.getPlugin('users');
-    const agent = app.agent().login(user).set('X-With-ACL-Meta', true);
+    const agent = app.agent().login(user);
+    agent.set('X-With-ACL-Meta', 'true');
     app.acl.allow('table_a', ['*']);
     app.acl.allow('collections', ['*']);
 

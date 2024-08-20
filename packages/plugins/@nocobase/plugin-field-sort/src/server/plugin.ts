@@ -9,6 +9,7 @@
 
 import { Plugin } from '@nocobase/server';
 import { SortField } from './sort-field';
+import { move } from './action';
 
 export class PluginFieldSortServer extends Plugin {
   async afterAdd() {}
@@ -20,6 +21,8 @@ export class PluginFieldSortServer extends Plugin {
     this.app.db.registerFieldTypes({
       sort: SortFieldClass,
     });
+
+    this.app.resourceManager.registerActionHandlers({ move });
   }
 
   async load() {}

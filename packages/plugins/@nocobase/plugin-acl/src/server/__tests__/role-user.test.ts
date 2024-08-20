@@ -20,7 +20,7 @@ describe('role', () => {
 
   beforeEach(async () => {
     api = await createMockServer({
-      plugins: ['users', 'acl', 'auth', 'data-source-manager'],
+      plugins: ['field-sort', 'users', 'acl', 'auth', 'data-source-manager'],
     });
     db = api.db;
     usersPlugin = api.getPlugin('users');
@@ -144,17 +144,13 @@ describe('role', () => {
     await userRolesRepo.add('test1');
     await userRolesRepo.add('test2');
 
-    const userToken = jwt.sign({ userId: user.get('id') }, 'test-key');
-    const response = await api
-      .agent()
-      .post('/users:setDefaultRole')
-      .send({
+    const agent = api.agent();
+    agent.login(user);
+    const response = await agent.resource('users').setDefaultRole({
+      values: {
         roleName: 'test2',
-      })
-      .set({
-        Authorization: `Bearer ${userToken}`,
-        'X-Authenticator': 'basic',
-      });
+      },
+    });
 
     expect(response.statusCode).toEqual(200);
 

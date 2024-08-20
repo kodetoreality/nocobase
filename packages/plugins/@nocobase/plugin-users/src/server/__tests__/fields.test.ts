@@ -18,7 +18,7 @@ describe('createdBy/updatedBy', () => {
 
   beforeEach(async () => {
     api = await createMockServer({
-      plugins: ['acl', 'users', 'data-source-main', 'error-handler', 'data-source-manager'],
+      plugins: ['acl', 'users', 'field-sort', 'data-source-main', 'error-handler', 'data-source-manager'],
     });
     db = api.db;
 

@@ -18,8 +18,6 @@ import { MockServer } from '@nocobase/test';
 import PluginWorkflow, { Processor, EXECUTION_STATUS, JOB_STATUS } from '@nocobase/plugin-workflow';
 import { getApp, sleep } from '@nocobase/plugin-workflow-test';
 
-import { RequestConfig } from '../MailerInstruction';
-
 const HOST = 'localhost';
 
 class MockAPI {
@@ -150,7 +148,7 @@ describe('workflow > instructions > request', () => {
           url: api.URL_DATA,
           method: 'GET',
           onlyData: true,
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -170,7 +168,7 @@ describe('workflow > instructions > request', () => {
         config: {
           url: api.URL_DATA,
           method: 'GET',
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -193,7 +191,7 @@ describe('workflow > instructions > request', () => {
           url: api.URL_TIMEOUT,
           method: 'GET',
           timeout: 250,
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -223,7 +221,7 @@ describe('workflow > instructions > request', () => {
           method: 'GET',
           timeout: 250,
           ignoreFail: true,
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -247,7 +245,7 @@ describe('workflow > instructions > request', () => {
         config: {
           url: api.URL_400,
           method: 'GET',
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -266,7 +264,7 @@ describe('workflow > instructions > request', () => {
         config: {
           url: api.URL_400_MESSAGE,
           method: 'GET',
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -286,7 +284,7 @@ describe('workflow > instructions > request', () => {
         config: {
           url: api.URL_400_OBJECT,
           method: 'GET',
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -306,7 +304,7 @@ describe('workflow > instructions > request', () => {
         config: {
           url: api.URL_END,
           method: 'GET',
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -332,7 +330,7 @@ describe('workflow > instructions > request', () => {
           method: 'GET',
           timeout: 1000,
           ignoreFail: true,
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -352,7 +350,7 @@ describe('workflow > instructions > request', () => {
           url: api.URL_DATA,
           method: 'POST',
           data: { title: '{{$context.data.title}}' },
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -373,7 +371,7 @@ describe('workflow > instructions > request', () => {
           url: api.URL_DATA,
           method: 'POST',
           data: { title: '{{$context.data.title}}' },
-        } as RequestConfig,
+        },
       });
 
       const title = 't1\n\nline 2';
@@ -516,7 +514,7 @@ describe('workflow > instructions > request', () => {
           url: `http://localhost:12346/api/categories`,
           method: 'POST',
           headers: [{ name: 'Authorization', value: `Bearer ${token}` }],
-        } as RequestConfig,
+        },
       });
 
       await PostRepo.create({ values: { title: 't1' } });
@@ -551,7 +549,7 @@ describe('workflow > instructions > request', () => {
         config: {
           url: api.URL_DATA,
           method: 'GET',
-        } as RequestConfig,
+        },
       });
 
       const workflowPlugin = app.pm.get(PluginWorkflow) as PluginWorkflow;
@@ -573,7 +571,7 @@ describe('workflow > instructions > request', () => {
           url: api.URL_404,
           method: 'GET',
           ignoreFail: true,
-        } as RequestConfig,
+        },
       });
 
       const workflowPlugin = app.pm.get(PluginWorkflow) as PluginWorkflow;

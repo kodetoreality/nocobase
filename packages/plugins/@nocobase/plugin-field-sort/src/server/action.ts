@@ -9,12 +9,13 @@
 
 import { Model, Op } from 'sequelize';
 
-import { BelongsToManyRepository, Collection, HasManyRepository, SortField, TargetKey } from '@nocobase/database';
-import { Context } from '..';
-import { getRepositoryFromParams } from '../utils';
+import { BelongsToManyRepository, Collection, HasManyRepository, TargetKey } from '@nocobase/database';
+import { Context, utils } from '@nocobase/actions';
+
+import { SortField } from './sort-field';
 
 export async function move(ctx: Context, next) {
-  const repository = ctx.databaseRepository || getRepositoryFromParams(ctx);
+  const repository = ctx.databaseRepository || utils.getRepositoryFromParams(ctx);
   const { sourceId, targetId, targetScope, sticky, method } = ctx.action.params;
 
   let sortField = ctx.action.params.sortField;
@@ -27,21 +28,21 @@ export async function move(ctx: Context, next) {
     sortField = `${repository.association.foreignKey}Sort`;
   }
 
-  const sortAbleCollection = new SortAbleCollection(repository.collection, sortField);
+  const sortableCollection = new SortableCollection(repository.collection, sortField);
 
   if (sourceId && targetId) {
-    await sortAbleCollection.move(sourceId, targetId, {
+    await sortableCollection.move(sourceId, targetId, {
       insertAfter: method === 'insertAfter',
     });
   }
 
   // change scope
   if (sourceId && targetScope) {
-    await sortAbleCollection.changeScope(sourceId, targetScope, method);
+    await sortableCollection.changeScope(sourceId, targetScope, method);
   }
 
   if (sourceId && sticky) {
-    await sortAbleCollection.sticky(sourceId);
+    await sortableCollection.sticky(sourceId);
   }
 
   ctx.body = 'ok';
@@ -57,7 +58,7 @@ interface MoveOptions {
   insertAfter?: boolean;
 }
 
-export class SortAbleCollection {
+export class SortableCollection {
   collection: Collection;
   field: SortField;
   scopeKey: string;
